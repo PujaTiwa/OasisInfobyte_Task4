@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/pdf-lib@1.4.0"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  
+    <script src="https://use.fontawesome.com/releases/vVERSION/js/all.js" data-auto-add-css="false"></script>
+    <link href="https://use.fontawesome.com/releases/vVERSION/css/svg-with-js.css" rel="stylesheet" />
+  
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        
+    }
+    body{
+        height: 100vh;
+        background: #34495e;
+        font-family: cursive;
+    }
+    .container{
+        position: relative;
+        max-width: 800px;
+        padding: 10px;
+        margin: 10px auto;
+        background:   #fff;                 
+        height: 50vh;
+        border-radius: 5px;
+    }
+    .addTask{
+        width: 100%;
+        display: flex;
+        padding: 10px 0;
+    }
+    .addTask > input[type="text"]{
+        width: 90%;
+        color: #535353;
+        border: none;
+        border-bottom: 2px solid #666;
+        background: none;
+        padding: 10px;
+        font-size: 22px;
+        outline: none;
+        font-family: cursive;
+    }
+    .addTask button{
+        margin: 0 10px;
+        background-color: #f42384;
+        color: #fff;
+        font-size: 18px;
+        font-family: cursive;
+        text-transform: uppercase;
+        border: none;
+        outline: none;
+        border-radius: 5px;
+        cursor: pointer;
+        padding: 10px;
+    }
+    .notCompleted .Completed{
+        margin: 5px 0;
+        padding: 14px;
+    }
+    h3{
+        font-size: 28px;
+        text-transform: uppercase;
+        text-align: center;
+        color: #535353;
+        margin-top: 10px;
+    }
+    ol{
+        list-style: none;
+    }
+    ol li{
+        width: 100%;
+        padding: 12px;
+        margin: 5px 0;
+        background: #f42384;
+        font-size: 22px;
+        counter-increment: my-counter;
+        border-radius: 3px;
+    }
+    ol.Completed li{
+        background: #1686a1;
+    }
+    ol li::before{
+        content: counter(my-counter);
+        background: #34495e;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        display: inline-block;
+        line-height: 2rem;
+        text-align: center;
+        color: #fff;
+        margin-right: 0.5rem;
+    }
+    li button {
+        float: right;
+        padding: 5px;
+        font-size: 28px;
+        line-height: 28px;
+        margin-right: 15px;
+        color: #dddcdc;
+        background: none;
+        border: none;
+        outline: none;
+        cursor: pointer;
+    }
+    h1{
+        text-align: center;
+        margin:  0 2rem 0;
+        padding: 10px;
+        color: #e7214c;
+    }
+    hr{
+        color: #535353;
+        height: 3px;
+        background: #535353;
+    }
+</style>
+<body>
+    <div class="container">
+        <h1>ToDo List App</h1><hr>
+        <div class="addTask">
+            <input type="text" placeholder="Add a Task">
+            <button>Add</button>
+        </div>
+
+        <ol class="notCompleted">
+            <h3>Not Completed</h3>
+            <!-- <li>Task
+                <button><i class="fa fa-check"></i></button>
+                <button><i class="fa fa-trash"></i></button>
+            </li> -->
+        </ol>
+        <ol class="Completed">
+            <h3>Completed</h3>
+            <!-- <li>Task
+                <button><i class="fa fa-trash"></i></button>
+            </li> -->
+        </ol>
+    </div>
+
+    <script>
+        const input = document.querySelector('input')
+        const btn = document.querySelector('.addTask > button')
+
+        btn.addEventListener('click', addList)
+        input.addEventListener('keyup', (e) =>{
+            (e.keyCode === 13 ? addList(e) : null)
+        })
+
+        function addList(e) {
+            const notCompleted = document.querySelector('.notCompleted')
+            const Completed = document.querySelector('.Completed')
+
+            const newLi = document.createElement('li')
+            const checkBtn = document.createElement('button')
+            const delBtn = document.createElement('button')
+
+            checkBtn.innerHTML = '<i class="fa fa-check"></i>'
+            delBtn.innerHTML = '<i class="fa fa-trash"></i>'
+
+            if (input.value !== '') {
+                newLi.textContent = input.value;
+                input.value = ''
+                notCompleted.appendChild(newLi)
+                newLi.appendChild(checkBtn)
+                newLi.appendChild(delBtn)
+
+            }
+            checkBtn.addEventListener('click', function(){
+                const parent = this.parentNode
+                parent.remove();
+                Completed.appendChild(parent);
+                checkBtn.style.display = 'none'
+            });
+            delBtn.addEventListener('click', function(){
+                const parent = this.parentNode
+                parent.remove();
+            });
+        }
+    </script>
+</body>
+</html>
